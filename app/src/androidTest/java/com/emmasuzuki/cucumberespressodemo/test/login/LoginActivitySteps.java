@@ -18,7 +18,7 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.emmasuzuki.cucumberespressodemo.test;
+package com.emmasuzuki.cucumberespressodemo.test.login;
 
 import android.app.Activity;
 import android.content.Intent;

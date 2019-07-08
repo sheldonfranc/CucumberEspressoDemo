@@ -33,7 +33,8 @@ import cucumber.api.java.After;
 import cucumber.api.java.Before;
 
 @CucumberOptions(
-        glue = "com.emmasuzuki.cucumberespressodemo.test")
+        glue = "com.emmasuzuki.cucumberespressodemo.test"
+)
 public class Instrumentation extends MonitoringInstrumentation {
 
     private final CucumberInstrumentationCore instrumentationCore = new CucumberInstrumentationCore(this);
@@ -44,7 +45,7 @@ public class Instrumentation extends MonitoringInstrumentation {
         System.out.println("onCreate");
 
         String tags = BuildConfig.TEST_TAGS;
-        arguments.putString("features", "{'features/login', 'features/signup'}");
+        arguments.putString("features", "{'features/com.emmasuzuki.cucumberespressodemo.test.login', 'features/com.emmasuzuki.cucumberespressodemo.test.signup'}");
         if (!tags.isEmpty()) {
             arguments.putString("tags", tags.replaceAll(",", "--").replaceAll("\\s",""));
         }
