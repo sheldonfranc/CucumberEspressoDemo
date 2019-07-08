@@ -23,6 +23,7 @@ package com.emmasuzuki.cucumberespressodemo.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -33,6 +34,8 @@ import com.emmasuzuki.cucumberespressodemo.signup.SignupActivity;
  * Demo Login activity class
  */
 public class LoginActivity extends Activity {
+
+    public static final String TAG = LoginActivity.class.getSimpleName();
 
     private static final String DEMO_EMAIL = "espresso@spoon.com";
     private static final String DEMO_PASSWORD = "lemoncake";
@@ -74,6 +77,7 @@ public class LoginActivity extends Activity {
     }
 
     private void validateFields() {
+        Log.i(TAG, "validating fields");
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailEditText.getText().toString()).matches()) {
             emailEditText.setError(getString(R.string.msg_email_error));
         } else {
