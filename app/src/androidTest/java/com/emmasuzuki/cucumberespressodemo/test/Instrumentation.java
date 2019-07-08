@@ -45,7 +45,9 @@ public class Instrumentation extends MonitoringInstrumentation {
         System.out.println("onCreate");
 
         String tags = BuildConfig.TEST_TAGS;
-        arguments.putString("features", "{'features/com.emmasuzuki.cucumberespressodemo.test.login', 'features/com.emmasuzuki.cucumberespressodemo.test.signup'}");
+        String features = BuildConfig.FEATURE_DIR;
+        //arguments.putString("features", "{'features/com.emmasuzuki.cucumberespressodemo.test.login', 'features/com.emmasuzuki.cucumberespressodemo.test.signup'}");
+        arguments.putString("features", features);
         if (!tags.isEmpty()) {
             arguments.putString("tags", tags.replaceAll(",", "--").replaceAll("\\s",""));
         }

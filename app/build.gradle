@@ -22,7 +22,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
+        println "executing instrumentation"
         testApplicationId "com.emmasuzuki.cucumberespressodemo.test"
         testInstrumentationRunner "com.emmasuzuki.cucumberespressodemo.test.Instrumentation"
         //Passing parameters to instrumentation
@@ -70,5 +70,9 @@ def getTestTags() {
 }
 
 def getTestFeaturePackages() {
-    return project.hasProperty("featuredir") ? project.getProperties().get("featuredir") : "features"
+    if(project.hasProperty("featuredir")){
+        println "value of featuredir is : "
+        println project.getProperties().get("featuredir")
+    }
+    return project.hasProperty("featuredir") ? project.getProperties().get("featuredir") : ""
 }

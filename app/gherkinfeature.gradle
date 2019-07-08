@@ -87,7 +87,24 @@ def getTargetBranch = {
     return targetBranch
 }
 
-task getGherkinDocument (dependsOn: 'assembleAndroidTest') {
+task getGherkinDocument (dependsOn: 'assembleDebugAndroidTest') {
+
     def branches = new BranchDetails(getCurrentBranch(), getTargetBranch())
-    gherkinfeature.performGitDiff(branches.sourceBranch, branches.targetBranch)
+    List<String> modifiedFiles = gherkinfeature.performGitDiff(branches.sourceBranch, branches.targetBranch)
+    // project.ext.featuredir='testvalue'
+    List<String> namespace = new ArrayList<>()
+    modifiedFiles.eachWithIndex{filePath, index ->
+        String[] path = filePath.split("/")
+        if(path.length > 3){
+             if(path[2].toLowerCase() == 'androidtest' && (path[3].toLowerCase() == 'assets' || path[3].toLowerCase() == 'java')){
+                 filePath = filePath.replaceAll("app/src/androidTest/assets/", "")
+                 filePath =  filePath.replaceAll("app/src/androidTest/java/", "")
+                 filePath =  filePath.replaceAll("features/", "")
+                 path = filePath.split("/")
+                 namespace.add("\'features/"+ path.dropRight(1).join(".") + "\'")
+             }
+        }
+    }
+    namespace.unique()
+    project.ext.featuredir = "{" + namespace.join(",") + "}"
 }

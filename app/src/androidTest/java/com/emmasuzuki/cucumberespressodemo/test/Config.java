@@ -11,5 +11,11 @@ public final class Config {
      public static final String TAGS = BuildConfig.TEST_TAGS;
      public static final String FEATURE_DIR = BuildConfig.FEATURE_DIR;
 
+     public static String getFeatureDir() {
+          return FEATURE_DIR;
+     }
 
+     public static String getTAGS() {
+          return TAGS;
+     }
 }
