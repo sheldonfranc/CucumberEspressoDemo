@@ -26,7 +26,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.view.View;
 import android.widget.EditText;
 
-import com.emmasuzuki.cucumberespressodemo.LoginActivity;
+import com.emmasuzuki.cucumberespressodemo.login.LoginActivity;
 import com.emmasuzuki.cucumberespressodemo.R;
 
 import org.hamcrest.Description;
@@ -34,7 +34,6 @@ import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
-import cucumber.api.CucumberOptions;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;

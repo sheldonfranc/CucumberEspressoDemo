@@ -18,13 +18,16 @@
  * THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.emmasuzuki.cucumberespressodemo;
+package com.emmasuzuki.cucumberespressodemo.login;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import com.emmasuzuki.cucumberespressodemo.R;
+import com.emmasuzuki.cucumberespressodemo.signup.SignupActivity;
 
 /**
  * Demo Login activity class

@@ -1,0 +1,93 @@
+final class BranchDetails implements Serializable {
+
+    private String targetBranch
+    private String sourceBranch
+
+    BranchDetails(String targetBranch, String sourceBranch) {
+        this.sourceBranch = sourceBranch
+        this.targetBranch = targetBranch
+    }
+}
+
+
+class GherkinDocumentProvider {
+
+    private String currentBranch
+    private String targetBranch
+    private List<String> changedFiles = []
+
+    GherkinDocumentProvider(String currentBranch, String targetBranch) {
+        this.currentBranch = currentBranch
+        this.targetBranch = targetBranch
+    }
+
+    private List<String> getBranchDiff() {
+        def gitProcess = "git diff --name-only ${currentBranch} ${targetBranch}".execute()
+        return gitProcess.in.readLines()
+    }
+
+    private String getCurrentBranch() {
+        def gitRevParseProcess = "git rev-parse --abbrev-ref HEAD".execute()
+        return gitRevParseProcess.in.readLines()[0]
+    }
+
+    List<String> getDiffResult(){
+        println "executing getDiffResult"
+        if(changedFiles.isEmpty()){
+            try {
+                changedFiles = this.getBranchDiff()
+                println "Size: ${changedFiles.size()}"
+            } catch(Throwable t){
+                println "${t}"
+            }
+        }
+        return changedFiles
+    }
+}
+
+ext {
+    ext.gherkinfeatures = {
+        String[] changedFiles = []
+        getGitDiffResult = {
+            println "calling getGitDiffResult closure"
+            changedFiles = ['features/login', 'features/signup']
+            return changedFiles
+        }
+        performGitDiff = { String currentBranch, String targetBranch ->
+            if(currentBranch?.trim() && targetBranch?.trim()){
+                def gherkinDocuments = new GherkinDocumentProvider(currentBranch, targetBranch)
+                List<String> results = gherkinDocuments.getDiffResult()
+                if(results.isEmpty()){
+                    def userMessage = String.format("PEFORMED GIT DIFF OPERATION AGAINST %s AND %s BRANCHES. NO CHANGES", currentBranch, targetBranch)
+                    println userMessage
+                }
+                return results
+            }
+        }
+    }
+}
+
+ext {
+    gherkinfeature = gherkinfeatures()
+}
+
+def getCurrentBranch = {
+    String currentBranch
+    if(project.hasProperty('currentBranch')){
+        currentBranch = project.property('currentBranch')
+    }
+    return currentBranch
+}
+
+def getTargetBranch = {
+    String targetBranch
+    if(project.hasProperty('targetBranch')){
+       targetBranch = project.property('targetBranch')
+    }
+    return targetBranch
+}
+
+task getGherkinDocument (dependsOn: 'assembleAndroidTest') {
+    def branches = new BranchDetails(getCurrentBranch(), getTargetBranch())
+    gherkinfeature.performGitDiff(branches.sourceBranch, branches.targetBranch)
+}

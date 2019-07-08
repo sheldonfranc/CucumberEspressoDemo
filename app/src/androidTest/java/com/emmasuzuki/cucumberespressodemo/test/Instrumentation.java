@@ -21,14 +21,18 @@ package com.emmasuzuki.cucumberespressodemo.test;
 
 import android.os.Bundle;
 import android.support.test.runner.MonitoringInstrumentation;
+import android.util.Log;
 
 import com.emmasuzuki.cucumberespressodemo.BuildConfig;
 
+
 import cucumber.api.CucumberOptions;
+import cucumber.api.Scenario;
 import cucumber.api.android.CucumberInstrumentationCore;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 
 @CucumberOptions(
-        features = "features",
         glue = "com.emmasuzuki.cucumberespressodemo.test")
 public class Instrumentation extends MonitoringInstrumentation {
 
@@ -37,8 +41,10 @@ public class Instrumentation extends MonitoringInstrumentation {
     @Override
     public void onCreate(Bundle arguments) {
         super.onCreate(arguments);
+        System.out.println("onCreate");
 
         String tags = BuildConfig.TEST_TAGS;
+        arguments.putString("features", "{'features/login', 'features/signup'}");
         if (!tags.isEmpty()) {
             arguments.putString("tags", tags.replaceAll(",", "--").replaceAll("\\s",""));
         }
@@ -54,4 +60,16 @@ public class Instrumentation extends MonitoringInstrumentation {
         waitForIdleSync();
         instrumentationCore.start();
     }
+
+    @After
+    public void clear(Scenario scenario) throws Throwable {
+        Log.i("Clear", "after Method");
+    }
+
+    @Before
+    public void setup(Scenario scenario) throws Throwable {
+        Log.i("setup", "before Method");
+        System.out.println("getName : "  + scenario.getName());
+    }
+
 }

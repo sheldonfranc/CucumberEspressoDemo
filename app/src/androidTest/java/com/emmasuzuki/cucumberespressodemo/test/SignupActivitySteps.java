@@ -25,7 +25,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 
 import com.emmasuzuki.cucumberespressodemo.R;
-import com.emmasuzuki.cucumberespressodemo.SignupActivity;
+import com.emmasuzuki.cucumberespressodemo.signup.SignupActivity;
 
 import org.junit.Rule;
 

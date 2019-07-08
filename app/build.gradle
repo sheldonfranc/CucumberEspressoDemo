@@ -10,6 +10,7 @@ buildscript {
 
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+apply from: 'gherkinfeature.gradle'
 
 android {
     compileSdkVersion 28
@@ -24,6 +25,9 @@ android {
 
         testApplicationId "com.emmasuzuki.cucumberespressodemo.test"
         testInstrumentationRunner "com.emmasuzuki.cucumberespressodemo.test.Instrumentation"
+        //Passing parameters to instrumentation
+        buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
+        buildConfigField "String", "FEATURE_DIR", "\"${getTestFeaturePackages()}\""
     }
 
     sourceSets {
@@ -35,7 +39,6 @@ android {
     buildTypes {
         debug {
             testCoverageEnabled true
-            buildConfigField "String", "TEST_TAGS", "\"${getTestTags()}\""
         }
 
         release {
@@ -64,4 +67,8 @@ dependencies {
 
 def getTestTags() {
     return project.hasProperty("tags") ? project.getProperties().get("tags") : ""
+}
+
+def getTestFeaturePackages() {
+    return project.hasProperty("featuredir") ? project.getProperties().get("featuredir") : "features"
 }
